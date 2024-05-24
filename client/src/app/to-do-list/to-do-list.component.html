@@ -1,0 +1,13 @@
+<mat-toolbar></mat-toolbar>
+<ng-container *ngFor="let key of listDataService.getKeys()">
+    <mat-toolbar [color]="listDataService.getIsCompleted(key) ? 'accent':'warn'">
+      <mat-checkbox [checked]="listDataService.getIsCompleted(key)" (change)="checkCompleted(key)"></mat-checkbox>
+        <span>
+            {{listDataService.getDescription(key)}}
+        </span>
+        <span class="spacer"></span>
+        <button mat-icon-button class="iocn-pad" aria-label="An button with delete icon">
+            <mat-icon>delete</mat-icon>
+        </button>
+    </mat-toolbar>
+</ng-container>
