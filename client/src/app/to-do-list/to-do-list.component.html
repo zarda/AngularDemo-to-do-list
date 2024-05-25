@@ -6,9 +6,14 @@
             (change)="checkCompleted(key)"
             >
         </mat-checkbox>
-        <span>
-            {{listDataService.getDescription(key)}}
-        </span>
+        <input
+            type="text"
+            matInput
+            class="width-full"
+            placeholder="Task description"
+            [value]="listDataService.getDescription(key)"
+            (change)="listDataService.setDescription(key, $any($event.target).value)"
+            >
         <span class="spacer"></span>
         <button
             mat-icon-button
