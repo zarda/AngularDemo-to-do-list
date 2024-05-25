@@ -15,10 +15,17 @@ export class ToDoListComponent {
   checkCompleted(key: string) {
     this.listDataService.changeIsCompleted(key);
   }
+
+  onDeleteByKey(key: string, $event: any) {
+    this.listDataService.delList(key);
+  }
 }
 
 const DEMO_DATA = [
   { description: 'demo1', isCompleted: false },
   { description: 'demo2', isCompleted: true },
   { description: 'demo3', isCompleted: false },
+  { description: 'demo4', isCompleted: true },
+  { description: 'demo5', isCompleted: true },
+  { description: 'demo6', isCompleted: false },
 ];

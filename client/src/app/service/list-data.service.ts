@@ -29,10 +29,8 @@ export class ListDataService {
     return [...this.dataStore.keys()];
   }
 
-  getSortedKeys(): string[] {
-    const sortedKeys = this.getKeys();
-    sortedKeys.sort();
-    return sortedKeys;
+  getReversedKeys(): string[] {
+    return this.getKeys().reverse();
   }
 
   getDataSize() {
