@@ -1,5 +1,5 @@
 <mat-toolbar></mat-toolbar>
-<ng-container *ngFor="let key of listDataService.getReversedKeys()">
+<ng-container *ngFor="let key of listDataService.keys">
     <mat-toolbar [color]="listDataService.getIsCompleted(key) ? 'accent':'warn'">
         <mat-checkbox
             [checked]="listDataService.getIsCompleted(key)"

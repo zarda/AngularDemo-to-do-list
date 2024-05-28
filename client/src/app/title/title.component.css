@@ -7,3 +7,7 @@
 .align-center {
     margin: 0 auto;
 }
+
+.icon-pad {
+    padding: 0 14px;
+}

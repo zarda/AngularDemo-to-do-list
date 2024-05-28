@@ -7,5 +7,13 @@
         >
         <mat-icon>add</mat-icon>
     </button>
+    <button
+        mat-icon-button
+        class="iocn-pad"
+        aria-label="A button with sort icon"
+        (click)="listDataService.switchDataOrder()"
+        >
+        <mat-icon>sort</mat-icon>
+    </button>
     <span class="align-center">A simple to-do-list</span>
 </mat-toolbar>
