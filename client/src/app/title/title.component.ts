@@ -7,7 +7,9 @@ import { ListDataService } from '../service/list-data.service';
   styleUrl: './title.component.css'
 })
 export class TitleComponent {
+  searchWord: string;
 
-  constructor(readonly listDataService: ListDataService) { }
-
+  constructor(readonly listDataService: ListDataService) {
+    this.searchWord = '';
+  }
 }

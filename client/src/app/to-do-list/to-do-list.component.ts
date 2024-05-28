@@ -15,6 +15,6 @@ export class ToDoListComponent {
   }
 
   onDeleteByKey(key: string, $event: any) {
-    this.listDataService.delList(key);
+    this.listDataService.delete(key);
   }
 }

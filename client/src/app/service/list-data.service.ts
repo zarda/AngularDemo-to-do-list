@@ -17,17 +17,17 @@ export class ListDataService {
     this.dataOrder = DataOrder.DEFAULT;
   }
 
-  addList(desc: string) {
+  add(desc: string) {
     const id = uuidv4();
     console.log(`Create a new list of id ${id}.`);
 
     const now = new Date();
     const newData: ListData = { description: desc, isCompleted: false, timeStamp: now.toISOString() };
     this.dataStore.set(id, newData);
-    this.keys.unshift(id);
+    this.keys = this.getReversedKeys();
   }
 
-  delList(key: string) {
+  delete(key: string) {
     this.dataStore.delete(key);
     const index = this.keys.indexOf(key);
     if (index !== -1) {
@@ -52,6 +52,10 @@ export class ListDataService {
     return this.dataStore.get(key)?.description;
   }
 
+  getTimestamp(key: string) {
+    return this.dataStore.get(key)?.timeStamp;
+  }
+
   changeIsCompleted(key: string) {
     const targetData = this.dataStore.get(key);
     if (targetData == undefined) {
@@ -69,10 +73,10 @@ export class ListDataService {
     return this.dataStore.get(key)?.isCompleted;
   }
 
-  getDoneKeys() {
+  getDoneKeys(keys: string[]) {
     const done: string[] = [];
     const undone: string[] = [];
-    for (let key of this.getKeys()) {
+    for (let key of keys) {
       if (this.getIsCompleted(key)) {
         done.unshift(key);
       } else {
@@ -94,16 +98,18 @@ export class ListDataService {
     switch (this.dataOrder) {
       case DataOrder.DEFAULT:
         this.dataOrder = DataOrder.DONE_FIRST;
-        this.keys = this.getDoneKeys().last;
+        this.keys = this.getDoneKeys(this.keys).first;
         break;
       case DataOrder.DONE_FIRST:
         this.dataOrder = DataOrder.DONE_LAST;
-        this.keys = this.getDoneKeys().first;
+        this.keys = this.getDoneKeys(this.keys).last;
         break;
       case DataOrder.DONE_LAST:
       default:
         this.dataOrder = DataOrder.DEFAULT;
-        this.keys = this.getReversedKeys();
+        this.keys.sort((a, b) => {
+          return (''+this.getTimestamp(a)).localeCompare(this.getTimestamp(b)+'');
+        });
         break;
     }
   }
