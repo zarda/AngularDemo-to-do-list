@@ -1,3 +1,11 @@
 <mat-toolbar class="app-header">
+    <button
+        mat-icon-button
+        class="iocn-pad"
+        aria-label="A button with add icon"
+        (click)="listDataService.addList('New Task')"
+        >
+        <mat-icon>add</mat-icon>
+    </button>
     <span class="align-center">A simple to-do-list</span>
 </mat-toolbar>

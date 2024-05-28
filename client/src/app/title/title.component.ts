@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ListDataService } from '../service/list-data.service';
 
 @Component({
   selector: 'app-title',
@@ -6,5 +7,7 @@ import { Component } from '@angular/core';
   styleUrl: './title.component.css'
 })
 export class TitleComponent {
+
+  constructor(readonly listDataService: ListDataService) { }
 
 }

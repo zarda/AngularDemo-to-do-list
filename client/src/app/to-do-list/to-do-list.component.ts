@@ -8,9 +8,7 @@ import { ListDataService } from '../service/list-data.service';
 })
 export class ToDoListComponent {
 
-  constructor(readonly listDataService: ListDataService) {
-    DEMO_DATA.forEach(data => this.listDataService.addList(data.description));
-  }
+  constructor(readonly listDataService: ListDataService) { }
 
   checkCompleted(key: string) {
     this.listDataService.changeIsCompleted(key);
@@ -20,12 +18,3 @@ export class ToDoListComponent {
     this.listDataService.delList(key);
   }
 }
-
-const DEMO_DATA = [
-  { description: 'demo1', isCompleted: false },
-  { description: 'demo2', isCompleted: true },
-  { description: 'demo3', isCompleted: false },
-  { description: 'demo4', isCompleted: true },
-  { description: 'demo5', isCompleted: true },
-  { description: 'demo6', isCompleted: false },
-];
