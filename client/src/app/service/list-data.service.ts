@@ -35,7 +35,7 @@ export class ListDataService {
     }
   }
 
-  getDataSize() {
+  getDataSize(): number {
     return this.dataStore.size;
   }
 
@@ -79,7 +79,7 @@ export class ListDataService {
         undone.unshift(key);
       }
     };
-    return {first: [...done, ...undone], last: [...undone, ...done]};
+    return { first: [...done, ...undone], last: [...undone, ...done] };
   }
 
   getKeys(): string[] {
@@ -106,5 +106,23 @@ export class ListDataService {
         this.keys = this.getReversedKeys();
         break;
     }
+  }
+
+  filterDescFrom(word: string) {
+    if (word.length === 0) {
+      this.keys = this.getReversedKeys();
+    }
+
+    const keys: string[] = [];
+    for (let key of this.getKeys()) {
+      const desc = this.getDescription(key);
+      if (desc === undefined) {
+        continue;
+      }
+      if (desc.toLowerCase().includes(word.toLowerCase())) {
+        keys.unshift(key);
+      }
+    }
+    this.keys = keys;
   }
 }

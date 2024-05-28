@@ -2,6 +2,8 @@
 <ng-container *ngFor="let key of listDataService.keys">
     <mat-toolbar [color]="listDataService.getIsCompleted(key) ? 'accent':'warn'">
         <mat-checkbox
+            class="icon-pad"
+            aria-label="A checkbox | disply whether the task has completed."    
             [checked]="listDataService.getIsCompleted(key)"
             (change)="checkCompleted(key)"
             >
@@ -11,14 +13,15 @@
             matInput
             class="width-full"
             placeholder="Task description"
+            aria-label="A input | disply the description of a task."
             [value]="listDataService.getDescription(key)"
             (change)="listDataService.setDescription(key, $any($event.target).value)"
             >
         <span class="spacer"></span>
         <button
             mat-icon-button
-            class="iocn-pad"
-            aria-label="A button with delete icon"
+            class="icon-pad"
+            aria-label="A button | delete this task."
             (click)="onDeleteByKey(key, $event)"
             >
             <mat-icon>delete</mat-icon>

@@ -1,19 +1,13 @@
 <mat-toolbar class="app-header">
-    <button
-        mat-icon-button
-        class="iocn-pad"
-        aria-label="A button with add icon"
-        (click)="listDataService.addList('New Task')"
-        >
+    <button mat-icon-button class="icon-pad" aria-label="A button | add new to-do task."
+        (click)="listDataService.addList('New Task')">
         <mat-icon>add</mat-icon>
     </button>
-    <button
-        mat-icon-button
-        class="iocn-pad"
-        aria-label="A button with sort icon"
-        (click)="listDataService.switchDataOrder()"
-        >
+    <button mat-icon-button class="icon-pad" aria-label="A button | change the order of list."
+        (click)="listDataService.switchDataOrder()">
         <mat-icon>sort</mat-icon>
     </button>
+    <input type="text" matInput class="icon-pad margin-left" placeholder="Search" aria-label="A input | search list by word."
+        (change)="listDataService.filterDescFrom($any($event.target).value)">
     <span class="align-center">A simple to-do-list</span>
 </mat-toolbar>
