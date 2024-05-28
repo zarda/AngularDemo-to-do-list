@@ -69,17 +69,17 @@ export class ListDataService {
     return this.dataStore.get(key)?.isCompleted;
   }
 
-  getDoneFirstKeys() {
+  getDoneKeys() {
     const done: string[] = [];
     const undone: string[] = [];
-    for (let key of this.keys) {
+    for (let key of this.getKeys()) {
       if (this.getIsCompleted(key)) {
-        done.push(key);
+        done.unshift(key);
       } else {
-        undone.push(key);
+        undone.unshift(key);
       }
     };
-    return [...done, ...undone];
+    return {first: [...done, ...undone], last: [...undone, ...done]};
   }
 
   getKeys(): string[] {
@@ -94,11 +94,11 @@ export class ListDataService {
     switch (this.dataOrder) {
       case DataOrder.DEFAULT:
         this.dataOrder = DataOrder.DONE_FIRST;
-        this.keys = this.getDoneFirstKeys().reverse();
+        this.keys = this.getDoneKeys().last;
         break;
       case DataOrder.DONE_FIRST:
         this.dataOrder = DataOrder.DONE_LAST;
-        this.keys = this.getDoneFirstKeys();
+        this.keys = this.getDoneKeys().first;
         break;
       case DataOrder.DONE_LAST:
       default:
