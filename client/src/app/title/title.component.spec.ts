@@ -38,6 +38,7 @@ describe('TitleComponent', () => {
     fixture = TestBed.createComponent(TitleComponent);
     component = fixture.componentInstance;
     loader = TestbedHarnessEnvironment.loader(fixture);
+    clearInterval(component.routine);
 
     fixture.detectChanges();
   });

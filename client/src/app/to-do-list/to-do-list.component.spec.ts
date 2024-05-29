@@ -9,7 +9,6 @@ import { ToDoListComponent } from './to-do-list.component';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 
 describe('ToDoListComponent', () => {
-  const dataStoreFake = new Map();
   let component: ToDoListComponent;
   let fixture: ComponentFixture<ToDoListComponent>;
   let loader: HarnessLoader;
