@@ -2,11 +2,9 @@
 As a demonstration to build frontend from screch
 
 # How to start
-<code>
-> cd client
 
-> ng serve
-</code>
+`> cd client`
+`> ng serve`
 
 # How to browse this
 http://localhost:4200/
