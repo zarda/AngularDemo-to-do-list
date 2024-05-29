@@ -109,7 +109,7 @@ export class ListDataService {
         this.dataOrder = DataOrder.DEFAULT;
         this.keys.sort((a, b) => {
           return (''+this.getTimestamp(a)).localeCompare(this.getTimestamp(b)+'');
-        });
+        }).reverse();
         break;
     }
   }
