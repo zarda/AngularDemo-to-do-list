@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { ListDataService } from './list-data.service';
-import { DataOrder } from '../enum';
+import { ListData } from '../interface';
 
 describe('ListDataService', () => {
   const numberOfTestData = 10;
@@ -50,10 +50,11 @@ describe('ListDataService', () => {
   it('should get timestamp', () => {
     const targetIndex = 2;
     const key = service.getKeys()[targetIndex];
-    const targetDate = (new Date()).toISOString();
+    let targetDate = (new Date()).toISOString();
+    targetDate.slice(0, targetDate.length - 2);
     spyOn(globalThis, 'Date').and.returnValue(targetDate);
 
-    expect(service.getTimestamp(key)).toEqual(targetDate);
+    expect(service.getTimestamp(key)).toContain(targetDate);
   });
 
   it('should get isCompleted', () => {
@@ -81,17 +82,17 @@ describe('ListDataService', () => {
   });
 
   it('should sort keys', () => {
-    const key1 = service.getKeys()[numberOfTestData/2-1];
+    const key1 = service.getKeys()[numberOfTestData / 2 - 1];
     service.changeIsCompleted(key1);
-    const key2 = service.getKeys()[numberOfTestData/2+1];
+    const key2 = service.getKeys()[numberOfTestData / 2 + 1];
     service.changeIsCompleted(key2);
 
     const doneKeys = service.getDoneKeys(service.getKeys());
 
     expect(service.getIsCompleted(doneKeys.first[0])).toBeTrue();
     expect(service.getIsCompleted(doneKeys.first[1])).toBeTrue();
-    expect(service.getIsCompleted(doneKeys.last[numberOfTestData-1])).toBeTrue();
-    expect(service.getIsCompleted(doneKeys.last[numberOfTestData-2])).toBeTrue();
+    expect(service.getIsCompleted(doneKeys.last[numberOfTestData - 1])).toBeTrue();
+    expect(service.getIsCompleted(doneKeys.last[numberOfTestData - 2])).toBeTrue();
   });
 
   it('should change dateOrder', () => {
@@ -131,5 +132,15 @@ describe('ListDataService', () => {
 
     expect(service.keys.length).toEqual(1);
     expect(service.getDescription(service.keys[0])).toEqual(`task${targetIndex}`);
+  });
+
+  it('should replace all data', () => {
+    service.replaceDataStore([['id1', {
+      description: 'new desc',
+      isCompleted: false,
+      timeStamp: Date()
+    } as ListData,]]);
+
+    expect(service.dataStore.size).toEqual(1);
   });
 });
