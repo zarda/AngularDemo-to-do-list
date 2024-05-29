@@ -17,6 +17,10 @@ export class ListDataService {
     this.dataOrder = DataOrder.DEFAULT;
   }
 
+  host(): ListDataService {
+    return this;
+  }
+
   add(desc: string) {
     const id = uuidv4();
     console.log(`Create a new list of id ${id}.`);
