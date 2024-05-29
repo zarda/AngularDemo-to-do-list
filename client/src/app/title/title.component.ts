@@ -26,7 +26,19 @@ export class TitleComponent implements OnInit {
   ngOnInit(): void {
     const storageData = this.localStorageService.get(LocalStorageKey.TODO_DATA_STORE) || new Map();
     if (storageData.size) {
-      this.listDataService.replaceDataStore(Array.from(storageData.entries()));
+      () => this.listDataService.replaceDataStore(Array.from(storageData.entries()));
     }
+  }
+
+  onAdd() {
+    this.listDataService.add('New Task');
+  }
+
+  onSort() {
+    this.listDataService.switchDataOrder();
+  }
+
+  onFilter($event: any) {
+    this.listDataService.filterDescFrom($event);
   }
 }

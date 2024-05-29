@@ -1,14 +1,14 @@
 <mat-toolbar class="app-header">
     <button mat-icon-button class="icon-pad" aria-label="A button | add new to-do task."
-        (click)="listDataService.add('New Task'); filterInput.value='';">
+        (click)="onAdd();filterInput.value='';">
         <mat-icon>add</mat-icon>
     </button>
     <button mat-icon-button class="icon-pad" aria-label="A button | change the order of list."
-        (click)="listDataService.switchDataOrder()">
+        (click)="onSort()">
         <mat-icon>sort</mat-icon>
     </button>
     <input #filterInput type="text" matInput class="icon-pad margin-left" placeholder="Search"
         aria-label="A input | search list by word." [ngModel]="searchWord"
-        (ngModelChange)="listDataService.filterDescFrom($event)">
+        (ngModelChange)="onFilter($event)">
     <span class="align-center">A simple to-do-list</span>
 </mat-toolbar>
