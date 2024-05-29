@@ -39,7 +39,7 @@ function replacer(key: string, value: any) {
   if (value instanceof Map) {
     return {
       dataType: 'Map',
-      value: [...value],
+      value: Array.from(value),
     };
   } else {
     return value;

@@ -131,4 +131,9 @@ export class ListDataService {
     }
     this.keys = keys;
   }
+
+  replaceDataStore(newDataStore: [string, ListData][]) {
+    this.dataStore = new Map(newDataStore);
+    this.keys = this.getReversedKeys();
+  }
 }

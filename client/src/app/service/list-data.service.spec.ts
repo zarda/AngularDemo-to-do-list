@@ -48,9 +48,9 @@ describe('ListDataService', () => {
   });
 
   it('should get timestamp', () => {
-    const targetDate = (new Date()).toISOString();
     const targetIndex = 2;
     const key = service.getKeys()[targetIndex];
+    const targetDate = (new Date()).toISOString();
     spyOn(globalThis, 'Date').and.returnValue(targetDate);
 
     expect(service.getTimestamp(key)).toEqual(targetDate);
