@@ -1,5 +1,5 @@
 # AngularDemo-to-do-list
-As a demonstration to build frontend from screch
+As a demonstration to build frontend from scratch
 
 # How to start
 
