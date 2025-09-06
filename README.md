@@ -19,3 +19,7 @@ http://localhost:4200/
 `> cd client`
 
 `> ng test --code-coverage`
+
+# Trouble shooting
+## Before build you may need to install libs
+`> yarn install`
