@@ -1,9 +1,9 @@
 <mat-toolbar></mat-toolbar>
-<ng-container *ngFor="let key of listDataService.keys">
+<ng-container *ngFor="let key of listDataService.keys; trackBy: listDataService.trackByKey">
     <mat-toolbar [color]="listDataService.getIsCompleted(key) ? 'accent':'warn'">
         <mat-checkbox
             class="icon-pad"
-            aria-label="A checkbox | disply whether the task has completed."    
+            aria-label="A checkbox | display whether the task has completed."
             [checked]="listDataService.getIsCompleted(key)"
             (change)="checkCompleted(key)"
             >
@@ -13,7 +13,7 @@
             matInput
             class="width-full"
             placeholder="Task description"
-            aria-label="A input | disply the description of a task."
+            aria-label="An input | display the description of a task."
             [value]="listDataService.getDescription(key)"
             (change)="listDataService.setDescription(key, $any($event.target).value)"
             >
@@ -22,7 +22,7 @@
             mat-icon-button
             class="icon-pad"
             aria-label="A button | delete this task."
-            (click)="onDeleteByKey(key, $event)"
+            (click)="onDeleteByKey(key)"
             >
             <mat-icon>delete</mat-icon>
         </button>

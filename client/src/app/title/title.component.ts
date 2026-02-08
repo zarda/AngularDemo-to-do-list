@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ListDataService } from '../service/list-data.service';
 import { LocalStorageKey } from '../enum';
 import { LocalStorageService } from '../service/local-storage.service';
@@ -8,7 +8,7 @@ import { LocalStorageService } from '../service/local-storage.service';
   templateUrl: './title.component.html',
   styleUrl: './title.component.css'
 })
-export class TitleComponent implements OnInit {
+export class TitleComponent implements OnInit, OnDestroy {
   searchWord: string;
   routine: ReturnType<typeof setInterval>;
 
@@ -18,7 +18,6 @@ export class TitleComponent implements OnInit {
   ) {
     this.searchWord = '';
     this.routine = setInterval(() => {
-      console.log('Saved data to local storage.');
       this.localStorageService.set(LocalStorageKey.TODO_DATA_STORE, this.listDataService.dataStore);
     }, 5000);
   }
@@ -26,11 +25,12 @@ export class TitleComponent implements OnInit {
   ngOnInit(): void {
     const storageData = this.localStorageService.get(LocalStorageKey.TODO_DATA_STORE) || new Map();
     if (storageData.size) {
-      const host = this.listDataService.host();
-      if (host) {
-        host.replaceDataStore(Array.from(storageData.entries()));
-      }
+      this.listDataService.replaceDataStore(Array.from(storageData.entries()));
     }
+  }
+
+  ngOnDestroy(): void {
+    clearInterval(this.routine);
   }
 
   onAdd() {
@@ -41,7 +41,7 @@ export class TitleComponent implements OnInit {
     this.listDataService.switchDataOrder();
   }
 
-  onFilter($event: any) {
+  onFilter($event: string) {
     this.listDataService.filterDescFrom($event);
   }
 }

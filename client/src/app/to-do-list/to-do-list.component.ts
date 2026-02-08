@@ -15,7 +15,7 @@ export class ToDoListComponent {
     this.listDataService.changeIsCompleted(key);
   }
 
-  onDeleteByKey(key: string, $event: any) {
+  onDeleteByKey(key: string) {
     this.listDataService.delete(key);
   }
 }

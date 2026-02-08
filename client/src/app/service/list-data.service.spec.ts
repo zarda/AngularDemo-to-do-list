@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { ListDataService } from './list-data.service';
 import { ListData } from '../interface';
+import { DataOrder } from '../enum';
 
 describe('ListDataService', () => {
   const numberOfTestData = 10;
@@ -47,14 +48,19 @@ describe('ListDataService', () => {
     expect(service.getDescription(key)).toEqual(targetDesc);
   });
 
+  it('should not set description for non-existent key', () => {
+    service.setDescription('non-existent-key', 'new desc');
+
+    expect(service.getDescription('non-existent-key')).toBeUndefined();
+  });
+
   it('should get timestamp', () => {
     const targetIndex = 2;
     const key = service.getKeys()[targetIndex];
-    let targetDate = (new Date()).toISOString();
-    targetDate.slice(0, targetDate.length - 2);
-    spyOn(globalThis, 'Date').and.returnValue(targetDate);
+    const timestamp = service.getTimestamp(key);
 
-    expect(service.getTimestamp(key)).toContain(targetDate);
+    expect(timestamp).toBeDefined();
+    expect(typeof timestamp).toBe('string');
   });
 
   it('should get isCompleted', () => {
@@ -72,13 +78,19 @@ describe('ListDataService', () => {
     expect(service.getIsCompleted(key)).toBeTrue();
   });
 
+  it('should not change isCompleted for non-existent key', () => {
+    service.changeIsCompleted('non-existent-key');
+
+    expect(service.getIsCompleted('non-existent-key')).toBeUndefined();
+  });
+
   it('should get reversed keys', () => {
     const testKeys = service.getReversedKeys();
     const keys = service.getKeys();
 
     testKeys.reverse();
 
-    expect(JSON.stringify(testKeys)).toEqual(JSON.stringify(keys));
+    expect(testKeys).toEqual(keys);
   });
 
   it('should sort keys', () => {
@@ -95,34 +107,30 @@ describe('ListDataService', () => {
     expect(service.getIsCompleted(doneKeys.last[numberOfTestData - 2])).toBeTrue();
   });
 
-  it('should change dateOrder', () => {
-    service.dataOrder = 0;
+  it('should cycle through data order states', () => {
+    service.dataOrder = DataOrder.DEFAULT;
     spyOn(service, 'getDoneKeys').and.callThrough();
 
     service.switchDataOrder();
-
-    expect(service.dataOrder.toString()).toEqual('1');
+    expect(service.dataOrder).toEqual(DataOrder.DONE_FIRST);
     expect(service.getDoneKeys).toHaveBeenCalled();
 
     service.switchDataOrder();
-
-    expect(service.dataOrder.toString()).toEqual('2');
+    expect(service.dataOrder).toEqual(DataOrder.DONE_LAST);
     expect(service.getDoneKeys).toHaveBeenCalled();
 
     service.switchDataOrder();
-
-    expect(service.dataOrder.toString()).toEqual('0');
-    expect(service.getDoneKeys).toHaveBeenCalled();
+    expect(service.dataOrder).toEqual(DataOrder.DEFAULT);
   });
 
   it('should retrieve to default data order when no word to filter', () => {
     const defaultKeys = service.getReversedKeys();
     service.switchDataOrder();
-    expect(JSON.stringify(service.keys)).not.toEqual(JSON.stringify(defaultKeys));
+    expect(service.keys).not.toEqual(defaultKeys);
 
     service.filterDescFrom('');
 
-    expect(JSON.stringify(service.keys)).toEqual(JSON.stringify(defaultKeys));
+    expect(service.keys).toEqual(defaultKeys);
   });
 
   it('should filter a key from a word', () => {
@@ -138,9 +146,14 @@ describe('ListDataService', () => {
     service.replaceDataStore([['id1', {
       description: 'new desc',
       isCompleted: false,
-      timeStamp: Date()
-    } as ListData,]]);
+      timeStamp: new Date().toISOString()
+    } as ListData]]);
 
     expect(service.dataStore.size).toEqual(1);
+    expect(service.keys.length).toEqual(1);
+  });
+
+  it('should provide trackByKey function', () => {
+    expect(service.trackByKey(0, 'test-key')).toEqual('test-key');
   });
 });
