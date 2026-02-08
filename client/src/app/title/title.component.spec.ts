@@ -16,11 +16,12 @@ describe('TitleComponent', () => {
   beforeEach(async () => {
     listDataServiceSpy = jasmine.createSpyObj(
       'listDataServiceSpy',
-      ['add', 'switchDataOrder', 'filterDescFrom']
+      ['add', 'switchDataOrder', 'filterDescFrom', 'replaceDataStore']
     );
     listDataServiceSpy.add.calls.reset();
     listDataServiceSpy.switchDataOrder.calls.reset();
     listDataServiceSpy.filterDescFrom.calls.reset();
+    listDataServiceSpy.replaceDataStore.calls.reset();
 
     await TestBed.configureTestingModule({
       imports: [
@@ -47,7 +48,7 @@ describe('TitleComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should click the "add" button ', async () => {
+  it('should click the "add" button', async () => {
     const button = await loader.getHarness(MatButtonHarness.with({ text: 'add' }));
 
     await button.click();
@@ -55,7 +56,7 @@ describe('TitleComponent', () => {
     expect(listDataServiceSpy.add).toHaveBeenCalledWith('New Task');
   });
 
-  it('should click the "sort" button ', async () => {
+  it('should click the "sort" button', async () => {
     const button = await loader.getHarness(MatButtonHarness.with({ text: 'sort' }));
 
     await button.click();
@@ -63,11 +64,20 @@ describe('TitleComponent', () => {
     expect(listDataServiceSpy.switchDataOrder).toHaveBeenCalled();
   });
 
-  it('should change the "Search" input ', async () => {
+  it('should change the "Search" input', async () => {
     const input = await loader.getHarness(MatInputHarness.with({ placeholder: 'Search' }));
 
     await input.setValue('new');
 
     expect(listDataServiceSpy.filterDescFrom).toHaveBeenCalled();
+  });
+
+  it('should clear interval on destroy', () => {
+    component.routine = setInterval(() => {}, 5000);
+    spyOn(globalThis, 'clearInterval').and.callThrough();
+
+    component.ngOnDestroy();
+
+    expect(globalThis.clearInterval).toHaveBeenCalled();
   });
 });

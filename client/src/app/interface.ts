@@ -15,5 +15,4 @@ export interface ListData {
 export interface LocalStorageValue {
     [LocalStorageKey.DEFAULT]: string;
     [LocalStorageKey.TODO_DATA_STORE]: Map<string, ListData>;
-  }
-  
+}

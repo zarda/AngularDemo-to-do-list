@@ -70,7 +70,7 @@ describe('ToDoListComponent', () => {
     expect(listDataServiceSpy.changeIsCompleted).toHaveBeenCalledOnceWith('id1');
   });
 
-  it('should delete the task item', async () => {
+  it('should delete the task item when delete button is clicked', async () => {
     const button = buttons[0];
 
     await button.click();

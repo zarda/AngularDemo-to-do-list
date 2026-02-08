@@ -17,14 +17,8 @@ export class ListDataService {
     this.dataOrder = DataOrder.DEFAULT;
   }
 
-  host(): ListDataService {
-    return this;
-  }
-
   add(desc: string) {
     const id = uuidv4();
-    console.log(`Create a new list of id ${id}.`);
-
     const now = new Date();
     const newData: ListData = { description: desc, isCompleted: false, timeStamp: now.toISOString() };
     this.dataStore.set(id, newData);
@@ -45,48 +39,44 @@ export class ListDataService {
 
   setDescription(key: string, newDesc: string) {
     const targetData = this.dataStore.get(key);
-    if (targetData == undefined) {
+    if (targetData === undefined) {
       return;
     }
 
     this.dataStore.set(key, { ...targetData, description: newDesc });
   }
 
-  getDescription(key: string) {
+  getDescription(key: string): string | undefined {
     return this.dataStore.get(key)?.description;
   }
 
-  getTimestamp(key: string) {
+  getTimestamp(key: string): string | undefined {
     return this.dataStore.get(key)?.timeStamp;
   }
 
   changeIsCompleted(key: string) {
     const targetData = this.dataStore.get(key);
-    if (targetData == undefined) {
-      return;
-    }
-    const isCompleted = this.dataStore.get(key)?.isCompleted;
-    if (isCompleted == undefined) {
+    if (targetData === undefined) {
       return;
     }
 
-    this.dataStore.set(key, { ...targetData, isCompleted: !isCompleted });
+    this.dataStore.set(key, { ...targetData, isCompleted: !targetData.isCompleted });
   }
 
-  getIsCompleted(key: string) {
+  getIsCompleted(key: string): boolean | undefined {
     return this.dataStore.get(key)?.isCompleted;
   }
 
   getDoneKeys(keys: string[]) {
     const done: string[] = [];
     const undone: string[] = [];
-    for (let key of keys) {
+    for (const key of keys) {
       if (this.getIsCompleted(key)) {
         done.unshift(key);
       } else {
         undone.unshift(key);
       }
-    };
+    }
     return { first: [...done, ...undone], last: [...undone, ...done] };
   }
 
@@ -112,7 +102,9 @@ export class ListDataService {
       default:
         this.dataOrder = DataOrder.DEFAULT;
         this.keys.sort((a, b) => {
-          return (''+this.getTimestamp(a)).localeCompare(this.getTimestamp(b)+'');
+          const tsA = this.getTimestamp(a) ?? '';
+          const tsB = this.getTimestamp(b) ?? '';
+          return tsA.localeCompare(tsB);
         }).reverse();
         break;
     }
@@ -121,10 +113,11 @@ export class ListDataService {
   filterDescFrom(word: string) {
     if (word.length === 0) {
       this.keys = this.getReversedKeys();
+      return;
     }
 
     const keys: string[] = [];
-    for (let key of this.getKeys()) {
+    for (const key of this.getKeys()) {
       const desc = this.getDescription(key);
       if (desc === undefined) {
         continue;
@@ -139,5 +132,9 @@ export class ListDataService {
   replaceDataStore(newDataStore: [string, ListData][]) {
     this.dataStore = new Map(newDataStore);
     this.keys = this.getReversedKeys();
+  }
+
+  trackByKey(_index: number, key: string): string {
+    return key;
   }
 }
