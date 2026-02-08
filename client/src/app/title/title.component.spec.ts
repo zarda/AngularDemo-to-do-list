@@ -73,7 +73,7 @@ describe('TitleComponent', () => {
   });
 
   it('should clear interval on destroy', () => {
-    component.routine = setInterval(() => {}, 5000);
+    component.routine = setInterval(() => undefined, 5000);
     spyOn(globalThis, 'clearInterval').and.callThrough();
 
     component.ngOnDestroy();

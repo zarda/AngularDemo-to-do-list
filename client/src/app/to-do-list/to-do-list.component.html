@@ -1,5 +1,5 @@
 <mat-toolbar></mat-toolbar>
-<ng-container *ngFor="let key of listDataService.keys; trackBy: listDataService.trackByKey">
+@for (key of listDataService.keys; track key) {
     <mat-toolbar [color]="listDataService.getIsCompleted(key) ? 'accent':'warn'">
         <mat-checkbox
             class="icon-pad"
@@ -27,4 +27,4 @@
             <mat-icon>delete</mat-icon>
         </button>
     </mat-toolbar>
-</ng-container>
+}

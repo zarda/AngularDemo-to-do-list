@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { ListDataService } from '../service/list-data.service';
 import { LocalStorageKey } from '../enum';
 import { LocalStorageService } from '../service/local-storage.service';
@@ -12,10 +12,10 @@ export class TitleComponent implements OnInit, OnDestroy {
   searchWord: string;
   routine: ReturnType<typeof setInterval>;
 
-  constructor(
-    private readonly listDataService: ListDataService,
-    private readonly localStorageService: LocalStorageService,
-  ) {
+  private readonly listDataService = inject(ListDataService);
+  private readonly localStorageService = inject(LocalStorageService);
+
+  constructor() {
     this.searchWord = '';
     this.routine = setInterval(() => {
       this.localStorageService.set(LocalStorageKey.TODO_DATA_STORE, this.listDataService.dataStore);

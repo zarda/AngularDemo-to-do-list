@@ -60,7 +60,7 @@ describe('ToDoListComponent', () => {
     expect(inputs.length).toEqual(3);
   });
 
-  it('should change the completed chackbox', async () => {
+  it('should change the completed checkbox', async () => {
     const checkbox = checkboxes[0];
     listDataServiceSpy.getIsCompleted.and.returnValue(false);
 
@@ -91,7 +91,6 @@ describe('ToDoListComponent', () => {
   });
 
   it('should trigger a change of description', async () => {
-    const newDecs = 'new task';
     const inputHost = await inputs[0].host();
 
     await inputHost.dispatchEvent('change');

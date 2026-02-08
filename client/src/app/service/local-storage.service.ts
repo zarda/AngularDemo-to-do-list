@@ -16,7 +16,7 @@ export class LocalStorageService {
         return null;
       }
       return JSON.parse(str, reviver) as LocalStorageValue[T];
-    } catch (err) {
+    } catch {
       // If str originally is a string, then parse will fail, just return it.
       return str as LocalStorageValue[T];
     }
@@ -34,23 +34,23 @@ export class LocalStorageService {
   }
 }
 
-// Help function for JSON.stringify
-function replacer(key: string, value: any) {
+/** Helper function for JSON.stringify to handle Map serialization */
+function replacer(_key: string, value: unknown): unknown {
   if (value instanceof Map) {
     return {
       dataType: 'Map',
       value: Array.from(value),
     };
-  } else {
-    return value;
   }
+  return value;
 }
 
-// Help function for JSON.parse
-function reviver(key: string, value: any) {
+/** Helper function for JSON.parse to handle Map deserialization */
+function reviver(_key: string, value: unknown): unknown {
   if (typeof value === 'object' && value !== null) {
-    if (value.dataType === 'Map') {
-      return new Map(value.value);
+    const obj = value as Record<string, unknown>;
+    if (obj['dataType'] === 'Map') {
+      return new Map(obj['value'] as Iterable<readonly [unknown, unknown]>);
     }
   }
   return value;

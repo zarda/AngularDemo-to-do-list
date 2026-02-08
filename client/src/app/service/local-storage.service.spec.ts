@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { ListData, LocalStorageValue } from '../interface';
+import { ListData } from '../interface';
 import { LocalStorageService } from './local-storage.service';
 import { LocalStorageKey } from '../enum';
 
